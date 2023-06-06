@@ -1,11 +1,11 @@
 package estruturas;
 
 public class Usuario {
-    public int id;
-    public String nome;
-    public String email;
-    public String dataNasc;
-    public String login;
+    private int id;
+    private String nome;
+    private String email;
+    private String dataNasc;
+    private String login;
 
     public Usuario(int id){
         this.id = id;
