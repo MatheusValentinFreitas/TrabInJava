@@ -34,6 +34,7 @@ public class Utilitarios {
         for (Usuario usuario : array) {
             System.out.println(usuario.getLogin());
             System.out.println(usuario.getNome());
+            System.out.println("----------------");
         }
     }
 

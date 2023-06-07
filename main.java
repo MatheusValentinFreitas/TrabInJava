@@ -21,6 +21,7 @@ public class main {
 
         while (teste != 0) {
             teste = Utilitarios.menu();
+
             try {
                 Utilitarios.limpaTela();
             } catch (Exception e) {
