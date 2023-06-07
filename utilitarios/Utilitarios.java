@@ -38,10 +38,30 @@ public class Utilitarios {
         }
     }
 
-    public static ArrayList<Usuario> cadastraUsuario(ArrayList<Usuario> Lista){
+    public static ArrayList<Usuario> cadastraUsuario(ArrayList<Usuario> Lista) {
 
+        Scanner scanner = new Scanner(System.in);
 
+        String nome;
+        String email;
+        String dataNasc;
+        String login;
 
+        System.out.print("Digite seu nome: ");
+        nome = scanner.nextLine();
+
+        System.out.print("Digite seu email: ");
+        email = scanner.nextLine();
+
+        System.out.print("Digite sua data de nascimento: ");
+        dataNasc = scanner.nextLine();
+
+        System.out.print("Digite seu login: ");
+        login = scanner.nextLine();
+
+        Usuario newUser = new Usuario(nome, email, dataNasc, login);
+
+        Lista.add(newUser);
 
         return Lista;
     }
