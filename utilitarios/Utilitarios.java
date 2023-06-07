@@ -57,7 +57,7 @@ public class Utilitarios {
                 if (loginBusca.equals(usuario.getLogin())) {
                     achou = true;
                     System.out.println("Nome: " + usuario.getNome());
-                    System.out.println("Email: " + usuario.getNome());
+                    System.out.println("Email: " + usuario.getEmail());
                     System.out.println("Data de nascimento: " + usuario.getDataNasc());
                     break;
                 }
@@ -101,6 +101,38 @@ public class Utilitarios {
             }
         } else {
             System.out.println("Não ha o que procurar.");
+        }
+    }
+
+    public static void alteraUsuario(ArrayList<Usuario> array) {
+
+        if (!vazioLista(array)) {
+
+            Scanner scanner = new Scanner(System.in);
+            String loginBusca;
+            Boolean achou = false;
+
+            System.out.println("Digite o login de usuario que deja alterar: ");
+            loginBusca = scanner.nextLine();
+
+            for (Usuario usuario : array) {
+                if (loginBusca.equals(usuario.getLogin())) {
+                    achou = true;
+                    System.out.print("Digite o novo Nome: ");
+                    usuario.setNome(scanner.nextLine());
+                    System.out.print("Digite o novo Email: ");
+                    usuario.setEmail(scanner.nextLine());
+                    System.out.print("Digite a nova Data de nascimento: ");
+                    usuario.setDataNasc(scanner.nextLine());
+                    break;
+                }
+            }
+
+            if (!achou) {
+                System.out.println("Usuario não encontrado");
+            }
+        } else {
+            System.out.println("Não ha o que alterar.");
         }
     }
 

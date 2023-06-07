@@ -36,7 +36,8 @@ public class main {
                     Utilitarios.continua();
                     break;
                 case 5:
-
+                    Utilitarios.alteraUsuario(Lista);
+                    Utilitarios.continua();
                     break;
                 case 0:
 
