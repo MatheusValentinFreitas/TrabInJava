@@ -31,14 +31,80 @@ public class Utilitarios {
     }
 
     public static void imprimeLista(ArrayList<Usuario> array) {
-        for (Usuario usuario : array) {
-            System.out.println(usuario.getLogin());
-            System.out.println(usuario.getNome());
-            System.out.println("----------------");
+
+        if (!vazioLista(array)) {
+            for (Usuario usuario : array) {
+                System.out.println(usuario.getLogin());
+                System.out.println(usuario.getNome());
+                System.out.println("----------------");
+            }
+        } else {
+            System.out.println("A lista esta vazia.");
         }
     }
 
-    public static ArrayList<Usuario> cadastraUsuario(ArrayList<Usuario> Lista) {
+    public static void pesquisarUsuario(ArrayList<Usuario> array) {
+        if (!vazioLista(array)) {
+
+            Scanner scanner = new Scanner(System.in);
+            String loginBusca;
+            Boolean achou = false;
+
+            System.out.println("Digite o login de usuario que deja procurar: ");
+            loginBusca = scanner.nextLine();
+
+            for (Usuario usuario : array) {
+                if (loginBusca.equals(usuario.getLogin())) {
+                    achou = true;
+                    System.out.println("Nome: " + usuario.getNome());
+                    System.out.println("Email: " + usuario.getNome());
+                    System.out.println("Data de nascimento: " + usuario.getDataNasc());
+                    break;
+                }
+            }
+
+            if (!achou) {
+                System.out.println("Usuario não encontrado");
+            }
+        } else {
+            System.out.println("Não ha o que procurar.");
+        }
+    }
+
+    public static void excluirUsuario(ArrayList<Usuario> array) {
+        if (!vazioLista(array)) {
+
+            Scanner scanner = new Scanner(System.in);
+            String loginBusca;
+            Boolean achou = false;
+
+            System.out.println("Digite o login de usuario que deja remover: ");
+            loginBusca = scanner.nextLine();
+
+            Usuario removeUser;
+
+            for (int i = 0; i < array.size(); i++) {
+                
+                removeUser = array.get(i);
+
+                if (loginBusca.equals(removeUser.getLogin())) {
+                    achou = true;
+                    array.remove(i);
+                    break;
+                }
+            }
+
+            if (!achou) {
+                System.out.println("Usuario não encontrado");
+            }else{
+                System.out.println("Usuario removido com sucesso.");
+            }
+        } else {
+            System.out.println("Não ha o que procurar.");
+        }
+    }
+
+    public static void cadastraUsuario(ArrayList<Usuario> array) {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -61,9 +127,15 @@ public class Utilitarios {
 
         Usuario newUser = new Usuario(nome, email, dataNasc, login);
 
-        Lista.add(newUser);
+        array.add(newUser);
+    }
 
-        return Lista;
+    public static boolean vazioLista(ArrayList<Usuario> array) {
+        if (array.size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void continua() {
@@ -81,5 +153,9 @@ public class Utilitarios {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         else
             Runtime.getRuntime().exec("clear");
+
+        for(int i = 0; i < 50; i++){
+            System.out.println("");
+        }
     }
 }

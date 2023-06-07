@@ -24,14 +24,16 @@ public class main {
                     Utilitarios.continua();
                     break;
                 case 2:
-
+                    Utilitarios.excluirUsuario(Lista);
+                    Utilitarios.continua();
                     break;
                 case 3:
                     Utilitarios.imprimeLista(Lista);
                     Utilitarios.continua();
                     break;
                 case 4:
-
+                    Utilitarios.pesquisarUsuario(Lista);
+                    Utilitarios.continua();
                     break;
                 case 5:
 
