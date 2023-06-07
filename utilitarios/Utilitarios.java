@@ -84,7 +84,7 @@ public class Utilitarios {
             Usuario removeUser;
 
             for (int i = 0; i < array.size(); i++) {
-                
+
                 removeUser = array.get(i);
 
                 if (loginBusca.equals(removeUser.getLogin())) {
@@ -96,7 +96,7 @@ public class Utilitarios {
 
             if (!achou) {
                 System.out.println("Usuario não encontrado");
-            }else{
+            } else {
                 System.out.println("Usuario removido com sucesso.");
             }
         } else {
@@ -148,14 +148,13 @@ public class Utilitarios {
     }
 
     public static void limpaTela() throws IOException, InterruptedException {
+        for (int i = 0; i < 50; i++) {
+            System.out.println("");
+        }
         // Limpa a tela no windows, no linux e no MacOS
         if (System.getProperty("os.name").contains("Windows"))
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         else
             Runtime.getRuntime().exec("clear");
-
-        for(int i = 0; i < 50; i++){
-            System.out.println("");
-        }
     }
 }
