@@ -7,17 +7,11 @@ public class main {
 
         ArrayList<Usuario> Lista = new ArrayList<Usuario>();
 
-        Usuario aluno = new Usuario(1);
+        Usuario aluno = new Usuario("Matheus", "Matheus@gmail", "18/02/2001", "mateuzin_123");
 
-        aluno.setNome("Matheus");
-
-        Usuario aluno1 = new Usuario(2);
-
-        aluno1.setNome("Antônio");
-
-        Usuario aluno2 = new Usuario(3);
-
-        aluno2.setNome("Valentin");
+        Usuario aluno1 = new Usuario("Antonio", "Antonio@gmail", "19/02/2001", "teuzin_123");
+        
+        Usuario aluno2 = new Usuario("Valentin", "Valentin@gmail", "20/02/2001", "deregjoson_123");
 
         Lista.add(aluno);
         Lista.add(aluno1);

@@ -32,8 +32,17 @@ public class Utilitarios {
 
     public static void imprimeLista(ArrayList<Usuario> array) {
         for (Usuario usuario : array) {
+            System.out.println(usuario.getLogin());
             System.out.println(usuario.getNome());
         }
+    }
+
+    public static ArrayList<Usuario> cadastraUsuario(ArrayList<Usuario> Lista){
+
+
+
+
+        return Lista;
     }
 
     public static void continua() {

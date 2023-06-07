@@ -1,18 +1,16 @@
 package estruturas;
 
 public class Usuario {
-    private int id;
     private String nome;
     private String email;
     private String dataNasc;
     private String login;
 
-    public Usuario(int id){
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    public Usuario(String nome, String email, String dataNasc, String login) {
+        this.nome = nome;
+        this.email = email;
+        this.dataNasc = dataNasc;
+        this.login = login;
     }
 
     public String getNome() {
@@ -29,10 +27,6 @@ public class Usuario {
 
     public String getLogin() {
         return login;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setNome(String nome) {
