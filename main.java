@@ -43,6 +43,10 @@ public class main {
                     Controlador.seguirUsuario(Lista);
                     Controlador.continua();
                     break;
+                case 7:
+                    Controlador.cancelaSeguirUsuario(Lista);
+                    Controlador.continua();
+                break;
                 default:
                     break;
             }

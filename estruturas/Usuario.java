@@ -52,6 +52,30 @@ public class Usuario {
         seguidores.add(seguidor);
     }
 
+    public void removeSeguidor(int posicao){
+        seguidores.remove(posicao);
+    }
+
+    public Coletor getSeguidor(String buscaSeguidor){
+        Coletor info;
+
+        boolean existe = false;
+        int posicao = -1;
+
+        for(int i = 0; i < seguidores.size(); i++){
+
+            if(buscaSeguidor.equals(seguidores.get(i))){
+                existe = true;
+                posicao = i;
+                break;
+            }
+        }
+
+        info = new Coletor(buscaSeguidor, existe, posicao);
+
+        return info;
+    }
+
     public void imprimeSeguidores(){
         for(String seguidor: seguidores){
             System.out.println(seguidor);

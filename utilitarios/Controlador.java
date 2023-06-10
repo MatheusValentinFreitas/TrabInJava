@@ -189,7 +189,6 @@ public class Controlador {
             if (usuario1Col.existe && usuario2Col.existe) {
                 usuario = array.get(usuario1Col.posicao);
                 usuario.setSeguidores(usuario2Col.login);
-                usuario.imprimeSeguidores();
             } else {
                 if (!usuario1Col.existe && !usuario2Col.existe) {
                     System.out.println("Nenhum dos dois usuarios existem.");
@@ -203,11 +202,54 @@ public class Controlador {
             }
         } else {
             System.out.println("Não ha usuarios suficientes para que se possam haver seguidores.");
-        }        
+        }
     }
 
-    public static void cancelaSeguirUsuario(ArrayList<Usuario> array){
-        
+    public static void cancelaSeguirUsuario(ArrayList<Usuario> array) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        String buscaLogin;
+
+        Coletor usuario1Col;
+        Coletor usuario2Col;
+
+        Usuario usuario;
+
+        if (array.size() >= 2) {
+            System.out.print("Digite o login do usuario a ser parado de seguir: ");
+            buscaLogin = scanner.nextLine();
+            usuario1Col = coletaUsuario(array, buscaLogin);
+            System.out.print("Digite o login do usuario que ira cancelalo: ");
+            buscaLogin = scanner.nextLine();
+            usuario2Col = coletaUsuario(array, buscaLogin);
+
+            if (usuario1Col.existe && usuario2Col.existe) {
+                usuario = array.get(usuario1Col.posicao);
+
+                Coletor seguidor = usuario.getSeguidor(usuario2Col.login);
+
+                if (seguidor.existe) {
+                    usuario.removeSeguidor(seguidor.posicao);
+                    System.out.println("O usuario " + usuario2Col.login + " deixou de seguir " + usuario1Col.login);
+                } else {
+                    System.out.println(
+                            "O usuario " + usuario2Col.login + " não é seguidor do usuario " + usuario1Col.login);
+                }
+            } else {
+                if (!usuario1Col.existe && !usuario2Col.existe) {
+                    System.out.println("Nenhum dos dois usuarios existem.");
+                } else {
+                    if (!usuario1Col.existe) {
+                        System.out.println("O usuario " + usuario1Col.login + " não existe.");
+                    } else {
+                        System.out.println("O usuario " + usuario2Col.login + " não existe.");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Não ha usuarios suficientes para que se possam haver seguidores.");
+        }
     }
 
     public static Coletor coletaUsuario(ArrayList<Usuario> array, String buscaLogin) {
@@ -261,17 +303,5 @@ public class Controlador {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         else
             Runtime.getRuntime().exec("clear");
-    }
-}
-
-class Coletor {
-    public String login;
-    public boolean existe;
-    public int posicao;
-
-    public Coletor(String login, Boolean existe, int posicao) {
-        this.login = login;
-        this.existe = existe;
-        this.posicao = posicao;
     }
 }
