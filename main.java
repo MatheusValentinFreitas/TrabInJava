@@ -1,5 +1,5 @@
 import estruturas.*;
-import utilitarios.Utilitarios;
+import utilitarios.Controlador;
 import java.util.ArrayList;
 
 public class main {
@@ -10,43 +10,45 @@ public class main {
         int teste = -1;
 
         while (teste != 0) {
-            teste = Utilitarios.menu();
+            teste = Controlador.menu();
 
             try {
-                Utilitarios.limpaTela();
+                Controlador.limpaTela();
             } catch (Exception e) {
             }
 
             switch (teste) {
 
                 case 1:
-                    Utilitarios.cadastraUsuario(Lista);
-                    Utilitarios.continua();
+                    Controlador.cadastraUsuario(Lista);
+                    Controlador.continua();
                     break;
                 case 2:
-                    Utilitarios.excluirUsuario(Lista);
-                    Utilitarios.continua();
+                    Controlador.excluirUsuario(Lista);
+                    Controlador.continua();
                     break;
                 case 3:
-                    Utilitarios.imprimeLista(Lista);
-                    Utilitarios.continua();
+                    Controlador.imprimeLista(Lista);
+                    Controlador.continua();
                     break;
                 case 4:
-                    Utilitarios.pesquisarUsuario(Lista);
-                    Utilitarios.continua();
+                    Controlador.pesquisarUsuario(Lista);
+                    Controlador.continua();
                     break;
                 case 5:
-                    Utilitarios.alteraUsuario(Lista);
-                    Utilitarios.continua();
+                    Controlador.alteraUsuario(Lista);
+                    Controlador.continua();
                     break;
-                case 0:
-
+                case 6:
+                    Controlador.seguirUsuario(Lista);
+                    Controlador.continua();
                     break;
                 default:
                     break;
             }
+
             try {
-                Utilitarios.limpaTela();
+                Controlador.limpaTela();
             } catch (Exception e) {
             }
 

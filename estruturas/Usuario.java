@@ -1,10 +1,13 @@
 package estruturas;
 
+import java.util.ArrayList;
+
 public class Usuario {
     private String nome;
     private String email;
     private String dataNasc;
     private String login;
+    private ArrayList<String> seguidores = new ArrayList<String>();
 
     public Usuario(String nome, String email, String dataNasc, String login) {
         this.nome = nome;
@@ -43,5 +46,15 @@ public class Usuario {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public void setSeguidores(String seguidor) {
+        seguidores.add(seguidor);
+    }
+
+    public void imprimeSeguidores(){
+        for(String seguidor: seguidores){
+            System.out.println(seguidor);
+        }
     }
 }

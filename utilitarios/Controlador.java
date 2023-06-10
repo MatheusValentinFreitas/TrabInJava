@@ -4,11 +4,12 @@ import estruturas.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Console;
 import java.io.IOException;
 
-public class Utilitarios {
+public class Controlador {
 
-    private Utilitarios() {
+    private Controlador() {
     }
 
     public static int menu() {
@@ -23,6 +24,8 @@ public class Utilitarios {
         System.out.println("3 - Listar usuário.");
         System.out.println("4 - Pesquisar.");
         System.out.println("5 - Alterar.");
+        System.out.println("6 - Seguir.");
+        System.out.println("7 - Cancelar seguir.");
         System.out.println("0 - Sair.");
 
         opcao = scanner.nextInt();
@@ -32,11 +35,13 @@ public class Utilitarios {
 
     public static void imprimeLista(ArrayList<Usuario> array) {
 
+        System.out.println("Impressão lista de Usuarios.");
+        System.out.println();
+
         if (!vazioLista(array)) {
             for (Usuario usuario : array) {
-                System.out.println(usuario.getLogin());
-                System.out.println(usuario.getNome());
-                System.out.println("----------------");
+                System.out.println("Login: " + usuario.getLogin() + " | Nome: " + usuario.getNome());
+                System.out.println();
             }
         } else {
             System.out.println("A lista esta vazia.");
@@ -50,7 +55,7 @@ public class Utilitarios {
             String loginBusca;
             Boolean achou = false;
 
-            System.out.println("Digite o login de usuario que deja procurar: ");
+            System.out.print("Digite o login de usuario que deja procurar: ");
             loginBusca = scanner.nextLine();
 
             for (Usuario usuario : array) {
@@ -162,6 +167,73 @@ public class Utilitarios {
         array.add(newUser);
     }
 
+    public static void seguirUsuario(ArrayList<Usuario> array) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        String buscaLogin;
+
+        Coletor usuario1Col;
+        Coletor usuario2Col;
+
+        Usuario usuario;
+
+        if (array.size() >= 2) {
+            System.out.print("Digite o login do usuario a ser seguido: ");
+            buscaLogin = scanner.nextLine();
+            usuario1Col = coletaUsuario(array, buscaLogin);
+            System.out.print("Digite o login do usuario que ira seguilo: ");
+            buscaLogin = scanner.nextLine();
+            usuario2Col = coletaUsuario(array, buscaLogin);
+
+            if (usuario1Col.existe && usuario2Col.existe) {
+                usuario = array.get(usuario1Col.posicao);
+                usuario.setSeguidores(usuario2Col.login);
+                usuario.imprimeSeguidores();
+            } else {
+                if (!usuario1Col.existe && !usuario2Col.existe) {
+                    System.out.println("Nenhum dos dois usuarios existem.");
+                } else {
+                    if (!usuario1Col.existe) {
+                        System.out.println("O usuario " + usuario1Col.login + " não existe.");
+                    } else {
+                        System.out.println("O usuario " + usuario2Col.login + " não existe.");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Não ha usuarios suficientes para que se possam haver seguidores.");
+        }        
+    }
+
+    public static void cancelaSeguirUsuario(ArrayList<Usuario> array){
+        
+    }
+
+    public static Coletor coletaUsuario(ArrayList<Usuario> array, String buscaLogin) {
+
+        Coletor info;
+        Usuario usuario;
+
+        boolean existe = false;
+        int posicao = -1;
+
+        for (int i = 0; i < array.size(); i++) {
+
+            usuario = array.get(i);
+
+            if (buscaLogin.equals(usuario.getLogin())) {
+                existe = true;
+                posicao = i;
+                break;
+            }
+        }
+
+        info = new Coletor(buscaLogin, existe, posicao);
+
+        return info;
+    }
+
     public static boolean vazioLista(ArrayList<Usuario> array) {
         if (array.size() == 0) {
             return true;
@@ -171,6 +243,7 @@ public class Utilitarios {
     }
 
     public static void continua() {
+        System.out.println();
         System.out.println("Pressione qualquer tecla para continuar...");
 
         Scanner scanner = new Scanner(System.in);
@@ -188,5 +261,17 @@ public class Utilitarios {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         else
             Runtime.getRuntime().exec("clear");
+    }
+}
+
+class Coletor {
+    public String login;
+    public boolean existe;
+    public int posicao;
+
+    public Coletor(String login, Boolean existe, int posicao) {
+        this.login = login;
+        this.existe = existe;
+        this.posicao = posicao;
     }
 }
