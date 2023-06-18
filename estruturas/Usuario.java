@@ -1,7 +1,5 @@
 package estruturas;
 
-import java.util.ArrayList;
-
 public class Usuario extends Rede {
     private String nome;
     private String email;

@@ -6,6 +6,14 @@ public class Rede {
     private HashSet<String> seguidores = new HashSet<String>();
     private HashSet<String> seguidos = new HashSet<String>();
 
+    public int quantidadeSeguidores() {
+        return seguidores.size();
+    }
+
+    public int quantidadeSeguidos() {
+        return seguidos.size();
+    }
+
     public boolean setSeguidor(String seguidor) {
         if (!seguidores.contains(seguidor)) {
             seguidores.add(seguidor);
@@ -42,15 +50,11 @@ public class Rede {
         }
     }
 
-    public void imprimeSeguidores() {
-        for (String seguidor : seguidores) {
-            System.out.println(seguidor);
-        }
+    public HashSet<String> getSeguidores() {
+        return seguidores;
     }
 
-    public void imprimeSeguindo() {
-        for (String seguindo : seguidos) {
-            System.out.println(seguindo);
-        }
+    public HashSet<String> getSeguidos() {
+        return seguidos;
     }
 }

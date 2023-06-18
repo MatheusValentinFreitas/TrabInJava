@@ -1,12 +1,16 @@
 package utilitarios;
 
 import estruturas.*;
+
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
 
     private static ArrayList<Usuario> Lista = new ArrayList<Usuario>();
+
+    private int mensagens;
 
     private Menu() {
     }
@@ -36,9 +40,11 @@ public class Menu {
 
                     break;
                 case 4:
-
+                    rede();
                     break;
                 default:
+                    System.out.println("Digite um valor valido.");
+                    Controlador.continua();
                     break;
             }
 
@@ -108,6 +114,8 @@ public class Menu {
                 Controlador.continua();
                 break;
             default:
+                System.out.println("Opção não valida.");
+                Controlador.continua();
                 break;
         }
 
@@ -140,6 +148,47 @@ public class Menu {
                 break;
             case 2:
                 Controlador.cancelaSeguirUsuario(Lista);
+                Controlador.continua();
+                break;
+            default:
+                System.out.println("Opção não valida.");
+                Controlador.continua();
+                break;
+        }
+
+        try {
+            Controlador.limpaTela();
+        } catch (Exception e) {
+        }
+    }
+
+    public static void rede() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        int opcao;
+
+        System.out.println("1 - Seguidores.");
+        System.out.println("2 - Seguidos.");
+
+        opcao = scanner.nextInt();
+
+        try {
+            Controlador.limpaTela();
+        } catch (Exception e) {
+        }
+
+        switch (opcao) {
+            case 1:
+                Controlador.mostraSeguidores(Lista);
+                Controlador.continua();
+                break;
+            case 2:
+                Controlador.mostraSeguidos(Lista);
+                Controlador.continua();
+                break;
+            default:
+                System.out.println("Opção não valida.");
                 Controlador.continua();
                 break;
         }
