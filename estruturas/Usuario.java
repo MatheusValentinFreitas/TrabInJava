@@ -2,12 +2,11 @@ package estruturas;
 
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario extends Rede {
     private String nome;
     private String email;
     private String dataNasc;
     private String login;
-    private ArrayList<String> seguidores = new ArrayList<String>();
 
     public Usuario(String nome, String email, String dataNasc, String login) {
         this.nome = nome;
@@ -46,39 +45,5 @@ public class Usuario {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public void setSeguidores(String seguidor) {
-        seguidores.add(seguidor);
-    }
-
-    public void removeSeguidor(int posicao){
-        seguidores.remove(posicao);
-    }
-
-    public Coletor getSeguidor(String buscaSeguidor){
-        Coletor info;
-
-        boolean existe = false;
-        int posicao = -1;
-
-        for(int i = 0; i < seguidores.size(); i++){
-
-            if(buscaSeguidor.equals(seguidores.get(i))){
-                existe = true;
-                posicao = i;
-                break;
-            }
-        }
-
-        info = new Coletor(buscaSeguidor, existe, posicao);
-
-        return info;
-    }
-
-    public void imprimeSeguidores(){
-        for(String seguidor: seguidores){
-            System.out.println(seguidor);
-        }
     }
 }

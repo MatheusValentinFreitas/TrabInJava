@@ -4,33 +4,12 @@ import estruturas.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.Console;
+
 import java.io.IOException;
 
 public class Controlador {
 
     private Controlador() {
-    }
-
-    public static int menu() {
-
-        Scanner scanner = new Scanner(System.in);
-
-        int opcao;
-
-        System.out.println("Escolha uma opção: ");
-        System.out.println("1 - Cadastrar usuário.");
-        System.out.println("2 - Excluir usuário.");
-        System.out.println("3 - Listar usuário.");
-        System.out.println("4 - Pesquisar.");
-        System.out.println("5 - Alterar.");
-        System.out.println("6 - Seguir.");
-        System.out.println("7 - Cancelar seguir.");
-        System.out.println("0 - Sair.");
-
-        opcao = scanner.nextInt();
-
-        return opcao;
     }
 
     public static void imprimeLista(ArrayList<Usuario> array) {
@@ -49,26 +28,23 @@ public class Controlador {
     }
 
     public static void pesquisarUsuario(ArrayList<Usuario> array) {
+
         if (!vazioLista(array)) {
 
             Scanner scanner = new Scanner(System.in);
             String loginBusca;
-            Boolean achou = false;
 
             System.out.print("Digite o login de usuario que deja procurar: ");
             loginBusca = scanner.nextLine();
 
-            for (Usuario usuario : array) {
-                if (loginBusca.equals(usuario.getLogin())) {
-                    achou = true;
-                    System.out.println("Nome: " + usuario.getNome());
-                    System.out.println("Email: " + usuario.getEmail());
-                    System.out.println("Data de nascimento: " + usuario.getDataNasc());
-                    break;
-                }
-            }
+            Coletor busca = coletaUsuario(array, loginBusca);
 
-            if (!achou) {
+            if (busca.existe) {
+                Usuario usuario = array.get(busca.posicao);
+                System.out.println("Nome: " + usuario.getNome());
+                System.out.println("Email: " + usuario.getEmail());
+                System.out.println("Data de nascimento: " + usuario.getDataNasc());
+            } else {
                 System.out.println("Usuario não encontrado");
             }
         } else {
@@ -86,23 +62,13 @@ public class Controlador {
             System.out.println("Digite o login de usuario que deja remover: ");
             loginBusca = scanner.nextLine();
 
-            Usuario removeUser;
+            Coletor busca = coletaUsuario(array, loginBusca);
 
-            for (int i = 0; i < array.size(); i++) {
-
-                removeUser = array.get(i);
-
-                if (loginBusca.equals(removeUser.getLogin())) {
-                    achou = true;
-                    array.remove(i);
-                    break;
-                }
-            }
-
-            if (!achou) {
-                System.out.println("Usuario não encontrado");
-            } else {
+            if (busca.existe) {
+                array.remove(busca.posicao);
                 System.out.println("Usuario removido com sucesso.");
+            } else {
+                System.out.println("Usuario não encontrado");
             }
         } else {
             System.out.println("Não ha o que procurar.");
@@ -115,25 +81,21 @@ public class Controlador {
 
             Scanner scanner = new Scanner(System.in);
             String loginBusca;
-            Boolean achou = false;
 
             System.out.println("Digite o login de usuario que deja alterar: ");
             loginBusca = scanner.nextLine();
 
-            for (Usuario usuario : array) {
-                if (loginBusca.equals(usuario.getLogin())) {
-                    achou = true;
-                    System.out.print("Digite o novo Nome: ");
-                    usuario.setNome(scanner.nextLine());
-                    System.out.print("Digite o novo Email: ");
-                    usuario.setEmail(scanner.nextLine());
-                    System.out.print("Digite a nova Data de nascimento: ");
-                    usuario.setDataNasc(scanner.nextLine());
-                    break;
-                }
-            }
+            Coletor busca = coletaUsuario(array, loginBusca);
 
-            if (!achou) {
+            if (busca.existe) {
+                Usuario usuario = array.get(busca.posicao);
+                System.out.print("Digite o novo Nome: ");
+                usuario.setNome(scanner.nextLine());
+                System.out.print("Digite o novo Email: ");
+                usuario.setEmail(scanner.nextLine());
+                System.out.print("Digite a nova Data de nascimento: ");
+                usuario.setDataNasc(scanner.nextLine());
+            } else {
                 System.out.println("Usuario não encontrado");
             }
         } else {
@@ -159,8 +121,17 @@ public class Controlador {
         System.out.print("Digite sua data de nascimento: ");
         dataNasc = scanner.nextLine();
 
-        System.out.print("Digite seu login: ");
-        login = scanner.nextLine();
+        Coletor validador;
+
+        do {
+            System.out.print("Digite seu login: ");
+            login = scanner.nextLine();
+            validador = coletaUsuario(array, login);
+
+            if (validador.existe) {
+                System.out.println("Esse login já existe favor inserir um outro login.");
+            }
+        } while (validador.existe);
 
         Usuario newUser = new Usuario(nome, email, dataNasc, login);
 
@@ -176,7 +147,8 @@ public class Controlador {
         Coletor usuario1Col;
         Coletor usuario2Col;
 
-        Usuario usuario;
+        Usuario usuario1;
+        Usuario usuario2;
 
         if (array.size() >= 2) {
             System.out.print("Digite o login do usuario a ser seguido: ");
@@ -187,8 +159,14 @@ public class Controlador {
             usuario2Col = coletaUsuario(array, buscaLogin);
 
             if (usuario1Col.existe && usuario2Col.existe) {
-                usuario = array.get(usuario1Col.posicao);
-                usuario.setSeguidores(usuario2Col.login);
+                usuario1 = array.get(usuario1Col.posicao);
+                usuario2 = array.get(usuario2Col.posicao);
+                if(usuario1.setSeguidor(usuario2Col.login)){
+                    System.out.println("O usuario " + usuario2Col.login + " agora esta seguindo o usuario " + usuario1Col.login);
+                    usuario2.setSeguindo(usuario1Col.login);
+                }else{
+                    System.out.println("O usuario " + usuario2Col.login + " já segue " + usuario1Col.login);
+                }
             } else {
                 if (!usuario1Col.existe && !usuario2Col.existe) {
                     System.out.println("Nenhum dos dois usuarios existem.");
@@ -214,7 +192,8 @@ public class Controlador {
         Coletor usuario1Col;
         Coletor usuario2Col;
 
-        Usuario usuario;
+        Usuario usuario1;
+        Usuario usuario2;
 
         if (array.size() >= 2) {
             System.out.print("Digite o login do usuario a ser parado de seguir: ");
@@ -225,13 +204,12 @@ public class Controlador {
             usuario2Col = coletaUsuario(array, buscaLogin);
 
             if (usuario1Col.existe && usuario2Col.existe) {
-                usuario = array.get(usuario1Col.posicao);
+                usuario1 = array.get(usuario1Col.posicao);
+                usuario2 = array.get(usuario2Col.posicao);
 
-                Coletor seguidor = usuario.getSeguidor(usuario2Col.login);
-
-                if (seguidor.existe) {
-                    usuario.removeSeguidor(seguidor.posicao);
+                if (usuario1.removeSeguidor(usuario2Col.login)) {
                     System.out.println("O usuario " + usuario2Col.login + " deixou de seguir " + usuario1Col.login);
+                    usuario2.removeSeguindo(usuario1Col.login);
                 } else {
                     System.out.println(
                             "O usuario " + usuario2Col.login + " não é seguidor do usuario " + usuario1Col.login);
