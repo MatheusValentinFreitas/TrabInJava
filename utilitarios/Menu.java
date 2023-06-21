@@ -170,6 +170,7 @@ public class Menu {
 
         System.out.println("1 - Seguidores.");
         System.out.println("2 - Seguidos.");
+        System.out.println("3 - Mais influente.");
 
         opcao = scanner.nextInt();
 
@@ -185,6 +186,10 @@ public class Menu {
                 break;
             case 2:
                 Controlador.mostraSeguidos(Lista);
+                Controlador.continua();
+                break;
+            case 3:
+                Controlador.maisInfluente(Lista);
                 Controlador.continua();
                 break;
             default:

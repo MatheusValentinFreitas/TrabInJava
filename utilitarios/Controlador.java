@@ -305,17 +305,39 @@ public class Controlador {
         }
     }
 
-    public static void maisInfluente(ArrayList<Usuario> array){
+    public static void maisInfluente(ArrayList<Usuario> array) {
 
         HashMap<String, String> maiorInfluente = new HashMap<String, String>();
         int maior = 0;
 
-        if(!vazioLista(array)){
+        if (!vazioLista(array)) {
 
-            for(Usuario usuario : array){
-                
+            for (Usuario usuario : array) {
+                if (usuario.quantidadeSeguidores() > maior) {
+                    maior = usuario.quantidadeSeguidores();
+                    maiorInfluente.clear();
+                    maiorInfluente.put(usuario.getLogin(), usuario.getNome());
+                } else if (usuario.quantidadeSeguidores() == maior) {
+                    maiorInfluente.put(usuario.getLogin(), usuario.getNome());
+                }
             }
-        }else{
+
+            if (maiorInfluente.size() > 0) {
+
+                System.out.println("Maior influencer do sistema.");
+
+                for (Usuario usuario : array) {
+                    if (maiorInfluente.get(usuario.getLogin()) != null) {
+                        System.out.println("Login: " + usuario.getLogin() + " | Nome: " + usuario.getNome());
+                        System.out.println();
+                    }
+                }
+
+                System.out.println("Quantidade total de seguidores: " + maior);
+            } else {
+                System.out.println("Nehum influenciador no sistema.");
+            }
+        } else {
             System.out.println("Nenhum usuario no sistema.");
         }
     }
