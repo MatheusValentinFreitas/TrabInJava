@@ -4,13 +4,16 @@ import estruturas.*;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
 
     private static ArrayList<Usuario> Lista = new ArrayList<Usuario>();
 
-    private int mensagens;
+    private static HashMap<String, Mensagem> Mensagens = new HashMap<String, Mensagem>();
+
+    private int mensagens = 1;
 
     private Menu() {
     }
@@ -37,7 +40,7 @@ public class Menu {
                     seguidores();
                     break;
                 case 3:
-
+                    mensagens();
                     break;
                 case 4:
                     rede();
@@ -148,6 +151,48 @@ public class Menu {
                 break;
             case 2:
                 Controlador.cancelaSeguirUsuario(Lista);
+                Controlador.continua();
+                break;
+            default:
+                System.out.println("Opção não valida.");
+                Controlador.continua();
+                break;
+        }
+
+        try {
+            Controlador.limpaTela();
+        } catch (Exception e) {
+        }
+    }
+
+    public static void mensagens() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        int opcao;
+
+        System.out.println("1 - Registrar mensagem.");
+        System.out.println("2 - Comentar mensagem.");
+        System.out.println("3 - Ver mensagens.");
+
+        opcao = scanner.nextInt();
+
+        try {
+            Controlador.limpaTela();
+        } catch (Exception e) {
+        }
+
+        switch (opcao) {
+            case 1:
+
+                Controlador.continua();
+                break;
+            case 2:
+
+                Controlador.continua();
+                break;
+            case 3:
+
                 Controlador.continua();
                 break;
             default:

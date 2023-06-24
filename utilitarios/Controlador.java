@@ -59,7 +59,6 @@ public class Controlador {
 
             Scanner scanner = new Scanner(System.in);
             String loginBusca;
-            Boolean achou = false;
 
             System.out.println("Digite o login de usuario que deja remover: ");
             loginBusca = scanner.nextLine();
@@ -340,6 +339,20 @@ public class Controlador {
         } else {
             System.out.println("Nenhum usuario no sistema.");
         }
+    }
+
+    public static void registrarMensagem(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        String buscaLogin;
+        Coletor usuarioCol;
+
+        System.out.print("Digite o login de um usuario que deseje registrar uma mensagem: ");
+        buscaLogin = scanner.nextLine();
+
+
+
     }
 
     public static Coletor coletaUsuario(ArrayList<Usuario> array, String buscaLogin) {
