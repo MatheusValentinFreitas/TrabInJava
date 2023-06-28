@@ -375,6 +375,29 @@ public class Controlador {
         }
     }
 
+    public static void comentarMensagem(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens){
+
+        Scanner scanner = new Scanner(System.in);
+
+        String buscaLogin;
+        Coletor usuarioCol;
+        Usuario usuario;
+
+        System.out.print("Digite o login do usuario que a mensagem sera comentada: ");
+        buscaLogin = scanner.nextLine();
+
+        usuarioCol = coletaUsuario(array, buscaLogin);
+
+        if(usuarioCol.existe){
+            usuario = array.get(usuarioCol.posicao);
+
+            
+        }else{
+            System.out.println("Usuario não encontrado.");
+        }
+
+    }
+
     public static void listarMensagens(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
 
         Scanner scanner = new Scanner(System.in);

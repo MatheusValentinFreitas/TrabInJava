@@ -1,10 +1,16 @@
 package estruturas;
+import java.util.HashMap;
 
-public class Mensagem extends Comentarios{
+import estruturas.Comentarios;
+
+public class Mensagem{
 
     private int id;
+    private int numComentarios = 1;
     private String login;
     private String registro;
+
+    private HashMap<String, Comentarios> comentarios = new HashMap<String, Comentarios>();
 
     public Mensagem(String login, String registro, int id) {
         this.id = id;
