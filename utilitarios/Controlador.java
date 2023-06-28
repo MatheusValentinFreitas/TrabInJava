@@ -243,7 +243,7 @@ public class Controlador {
         Usuario usuario;
         String buscaString;
 
-        System.out.println("Digite o login do usuario que deseje ver os seguidores: ");
+        System.out.print("Digite o login do usuario que deseje ver os seguidores: ");
         buscaString = scanner.nextLine();
 
         usuarioCol = coletaUsuario(array, buscaString);
@@ -279,7 +279,7 @@ public class Controlador {
         Usuario usuario;
         String buscaString;
 
-        System.out.println("Digite o login do usuario que deseje ver quem esta seguindo: ");
+        System.out.print("Digite o login do usuario que deseje ver quem esta seguindo: ");
         buscaString = scanner.nextLine();
 
         usuarioCol = coletaUsuario(array, buscaString);
