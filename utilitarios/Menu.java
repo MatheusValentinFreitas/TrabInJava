@@ -6,14 +6,13 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.ResourceBundle.Control;
 
 public class Menu {
 
     private static ArrayList<Usuario> Lista = new ArrayList<Usuario>();
 
-    private static HashMap<String, Mensagem> Mensagens = new HashMap<String, Mensagem>();
-
-    private int mensagens = 1;
+    private static HashMap<String, Mensagem> Mensagens = new HashMap<String, Mensagem>();    
 
     private Menu() {
     }
@@ -84,7 +83,7 @@ public class Menu {
 
         System.out.println("1 - Cadastrar usuário.");
         System.out.println("2 - Excluir usuário.");
-        System.out.println("3 - Listar usuário.");
+        System.out.println("3 - Listar usuários.");
         System.out.println("4 - Pesquisar.");
         System.out.println("5 - Alterar.");
 
@@ -184,7 +183,7 @@ public class Menu {
 
         switch (opcao) {
             case 1:
-
+                Controlador.registrarMensagem(Lista, Mensagens);
                 Controlador.continua();
                 break;
             case 2:
@@ -192,7 +191,7 @@ public class Menu {
                 Controlador.continua();
                 break;
             case 3:
-
+                Controlador.listarMensagens(Lista, Mensagens);
                 Controlador.continua();
                 break;
             default:

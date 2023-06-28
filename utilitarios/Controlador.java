@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class Controlador {
 
+    private static int registros = 1;
+
     private Controlador() {
     }
 
@@ -351,8 +353,64 @@ public class Controlador {
         System.out.print("Digite o login de um usuario que deseje registrar uma mensagem: ");
         buscaLogin = scanner.nextLine();
 
+        usuarioCol = coletaUsuario(array, buscaLogin);
 
+        if (usuarioCol.existe) {
+            Mensagem novaMensagem;
+            String mensagem;
 
+            System.out.print("Digite a mensagem que deseja registar: ");
+            mensagem = scanner.nextLine();
+
+            novaMensagem = new Mensagem(usuarioCol.login, mensagem, registros);
+
+            mensagens.put(Integer.toString(registros), novaMensagem);
+
+            registros++;
+
+            System.out.println("Mensagem registrada com sucesso.");
+
+        } else {
+            System.out.println("Usuario não encontrado.");
+        }
+    }
+
+    public static void listarMensagens(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        String buscaLogin;
+        Coletor usuarioCol;
+        Usuario usuario;
+        Mensagem mensagem;
+
+        System.out.print("Digite o login de um usuario que deseje registrar uma mensagem: ");
+        buscaLogin = scanner.nextLine();
+
+        usuarioCol = coletaUsuario(array, buscaLogin);
+
+        if (usuarioCol.existe) {
+            usuario = array.get(usuarioCol.posicao);
+
+            HashSet<String> seguidos = usuario.getSeguidores();
+
+            for (String chave : mensagens.keySet()) {
+                mensagem = mensagens.get(chave);
+                if (usuario.getLogin().equals(mensagem.getLogin())) {
+                    System.out.println(
+                            "Num: " + chave + " Login: " + usuario.getLogin() + " Msg: " + mensagem.getRegistro());
+                } else {
+                    for (String seguido : seguidos) {
+                        if (seguido.equals(mensagem.getLogin())) {
+                            System.out.println("Num: " + chave + " Login: " + seguido + " Msg: "
+                                    + mensagem.getRegistro());
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("Usuario não encontrado.");
+        }
     }
 
     public static Coletor coletaUsuario(ArrayList<Usuario> array, String buscaLogin) {
