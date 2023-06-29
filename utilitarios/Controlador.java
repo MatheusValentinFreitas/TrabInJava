@@ -375,24 +375,43 @@ public class Controlador {
         }
     }
 
-    public static void comentarMensagem(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens){
+    public static void comentarMensagem(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
 
         Scanner scanner = new Scanner(System.in);
 
         String buscaLogin;
         Coletor usuarioCol;
         Usuario usuario;
+        Mensagem mensagem;
 
         System.out.print("Digite o login do usuario que a mensagem sera comentada: ");
         buscaLogin = scanner.nextLine();
 
         usuarioCol = coletaUsuario(array, buscaLogin);
 
-        if(usuarioCol.existe){
+        if (usuarioCol.existe) {
             usuario = array.get(usuarioCol.posicao);
+            int contMsgUsuario = 0;
 
-            
-        }else{
+            if (mensagens.size() > 0) {
+                for (String chave : mensagens.keySet()) {
+                    mensagem = mensagens.get(chave);
+                    if (usuario.getLogin().equals(mensagem.getLogin())) {
+                        System.out.println(
+                                "Num: " + chave + " Login: " + mensagem.getLogin() + " Msg: " + mensagem.getRegistro());
+                        contMsgUsuario++;
+                    }
+                }
+                
+                if (contMsgUsuario > 0) {
+                    System.out.print("Digite o número da mensagem que deseje fazer o comentario: ");
+                } else {
+                    System.out.println("Esse usuario não tem nenhuma mensagem registrada no sistema.");
+                }
+            } else {
+                System.out.println("Não existem mensagens registradas no sistema.");
+            }
+        } else {
             System.out.println("Usuario não encontrado.");
         }
 

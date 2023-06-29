@@ -18,6 +18,24 @@ public class Mensagem{
         this.registro = registro;
     }
 
+    public void imprimeComentarios(){
+        Comentarios comentario;
+        for(String chave : comentarios.keySet()){
+            comentario = comentarios.get(chave);
+            System.out.println("Num: " + chave + " Login: " + comentario.getLogin() + " Msg: " + comentario.getRegistro());
+        }
+    }
+
+    public void insereComentario(String login, String registro){
+        Comentarios novoComentario;
+
+        novoComentario = new Comentarios(login, registro, numComentarios);
+
+        comentarios.put(Integer.toString(numComentarios), novoComentario);
+
+        numComentarios++;
+    }
+
     public int getId() {
         return id;
     }
