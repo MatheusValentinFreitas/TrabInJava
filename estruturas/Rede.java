@@ -6,6 +6,14 @@ public class Rede {
     private HashSet<String> seguidores = new HashSet<String>();
     private HashSet<String> seguidos = new HashSet<String>();
 
+    public boolean verificaSeguidor(String login) {
+        return seguidores.contains(login);
+    }
+
+    public boolean verificaSeguido(String login) {
+        return seguidos.contains(login);
+    }
+
     public int quantidadeSeguidores() {
         return seguidores.size();
     }

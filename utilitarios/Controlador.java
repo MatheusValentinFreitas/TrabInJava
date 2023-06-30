@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.sound.midi.SysexMessage;
+
 import java.io.IOException;
 
 public class Controlador {
@@ -350,28 +352,32 @@ public class Controlador {
         String buscaLogin;
         Coletor usuarioCol;
 
-        System.out.print("Digite o login de um usuario que deseje registrar uma mensagem: ");
-        buscaLogin = scanner.nextLine();
+        if (array.size() > 0) {
+            System.out.print("Digite o login de um usuario que deseje registrar uma mensagem: ");
+            buscaLogin = scanner.nextLine();
 
-        usuarioCol = coletaUsuario(array, buscaLogin);
+            usuarioCol = coletaUsuario(array, buscaLogin);
 
-        if (usuarioCol.existe) {
-            Mensagem novaMensagem;
-            String mensagem;
+            if (usuarioCol.existe) {
+                Mensagem novaMensagem;
+                String mensagem;
 
-            System.out.print("Digite a mensagem que deseja registar: ");
-            mensagem = scanner.nextLine();
+                System.out.print("Digite a mensagem que deseja registar: ");
+                mensagem = scanner.nextLine();
 
-            novaMensagem = new Mensagem(usuarioCol.login, mensagem, registros);
+                novaMensagem = new Mensagem(usuarioCol.login, mensagem, registros);
 
-            mensagens.put(Integer.toString(registros), novaMensagem);
+                mensagens.put(Integer.toString(registros), novaMensagem);
 
-            registros++;
+                registros++;
 
-            System.out.println("Mensagem registrada com sucesso.");
+                System.out.println("Mensagem registrada com sucesso.");
 
+            } else {
+                System.out.println("Usuario não encontrado.");
+            }
         } else {
-            System.out.println("Usuario não encontrado.");
+            System.out.println("Não existem usuarios no sistema.");
         }
     }
 
@@ -379,42 +385,83 @@ public class Controlador {
 
         Scanner scanner = new Scanner(System.in);
 
-        String buscaLogin;
-        Coletor usuarioCol;
-        Usuario usuario;
+        String buscaLogin1;
+        String buscaLogin2;
+        Coletor usuarioCol1;
+        Coletor usuarioCol2;
+        Usuario usuario1;
         Mensagem mensagem;
 
-        System.out.print("Digite o login do usuario que a mensagem sera comentada: ");
-        buscaLogin = scanner.nextLine();
+        if (array.size() > 0) {
+            System.out.print("Digite o login do usuario que a mensagem sera comentada: ");
+            buscaLogin1 = scanner.nextLine();
 
-        usuarioCol = coletaUsuario(array, buscaLogin);
+            usuarioCol1 = coletaUsuario(array, buscaLogin1);
 
-        if (usuarioCol.existe) {
-            usuario = array.get(usuarioCol.posicao);
-            int contMsgUsuario = 0;
+            if (usuarioCol1.existe) {
+                usuario1 = array.get(usuarioCol1.posicao);
 
-            if (mensagens.size() > 0) {
-                for (String chave : mensagens.keySet()) {
-                    mensagem = mensagens.get(chave);
-                    if (usuario.getLogin().equals(mensagem.getLogin())) {
-                        System.out.println(
-                                "Num: " + chave + " Login: " + mensagem.getLogin() + " Msg: " + mensagem.getRegistro());
-                        contMsgUsuario++;
+                if (mensagens.size() > 0) {
+
+                    HashSet<String> mensagensValidas = new HashSet<String>();
+
+                    for (String chave : mensagens.keySet()) {
+                        mensagem = mensagens.get(chave);
+                        if (usuario1.getLogin().equals(mensagem.getLogin())) {
+                            System.out.println(
+                                    "Num: " + chave + " Login: " + mensagem.getLogin() + " Msg: "
+                                            + mensagem.getRegistro());
+                            mensagensValidas.add(chave);
+                        }
                     }
-                }
-                
-                if (contMsgUsuario > 0) {
-                    System.out.print("Digite o número da mensagem que deseje fazer o comentario: ");
+
+                    if (mensagensValidas.size() > 0) {
+
+                        System.out.print("Digite o login do usuario que fara o comentario: ");
+                        buscaLogin2 = scanner.nextLine();
+
+                        usuarioCol2 = coletaUsuario(array, buscaLogin2);
+
+                        if (usuarioCol2.existe) {
+                            if (usuario1.verificaSeguidor(usuarioCol2.login)) {
+                                String buscaChave;
+
+                                System.out.print("Digite o número da mensagem que deseje fazer o comentario: ");
+                                buscaChave = scanner.nextLine();
+
+                                if (mensagensValidas.contains(buscaChave)) {
+
+                                    String novoComentario;
+
+                                    mensagem = mensagens.get(buscaChave);
+                                    System.out.print("Digite o comentario a ser feito: ");
+                                    novoComentario = scanner.nextLine();
+
+                                    mensagem.insereComentario(usuarioCol2.login, novoComentario);
+
+                                    System.out.println("Comentario inserido com sucesso.");
+                                } else {
+                                    System.out.println(
+                                            "Não tem nenhuma mensagem relacionanda a esse usuario com essa chave.");
+                                }
+                            } else {
+                                System.out.println("Esse usuario não segue o usuario " + usuario1.getLogin());
+                            }
+                        } else {
+                            System.out.println("O usuario que foi selecionado para fazer o comentario não existe.");
+                        }
+                    } else {
+                        System.out.println("Esse usuario não tem nenhuma mensagem registrada no sistema.");
+                    }
                 } else {
-                    System.out.println("Esse usuario não tem nenhuma mensagem registrada no sistema.");
+                    System.out.println("Não existem mensagens registradas no sistema.");
                 }
             } else {
-                System.out.println("Não existem mensagens registradas no sistema.");
+                System.out.println("Usuario não encontrado.");
             }
         } else {
-            System.out.println("Usuario não encontrado.");
+            System.out.println("Não existem usuarios no sistema.");
         }
-
     }
 
     public static void listarMensagens(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
@@ -426,32 +473,60 @@ public class Controlador {
         Usuario usuario;
         Mensagem mensagem;
 
-        System.out.print("Digite o login de um usuario que deseje registrar uma mensagem: ");
-        buscaLogin = scanner.nextLine();
+        if (array.size() > 0) {
+            System.out.print("Digite o login de um usuario que deseje visualizar as mensagem: ");
+            buscaLogin = scanner.nextLine();
 
-        usuarioCol = coletaUsuario(array, buscaLogin);
+            usuarioCol = coletaUsuario(array, buscaLogin);
 
-        if (usuarioCol.existe) {
-            usuario = array.get(usuarioCol.posicao);
+            if (usuarioCol.existe) {
+                usuario = array.get(usuarioCol.posicao);
 
-            HashSet<String> seguidos = usuario.getSeguidores();
+                HashSet<String> seguidos = usuario.getSeguidos();
+                HashSet<String> mensagensValidas = new HashSet<String>();
 
-            for (String chave : mensagens.keySet()) {
-                mensagem = mensagens.get(chave);
-                if (usuario.getLogin().equals(mensagem.getLogin())) {
-                    System.out.println(
-                            "Num: " + chave + " Login: " + usuario.getLogin() + " Msg: " + mensagem.getRegistro());
-                } else {
-                    for (String seguido : seguidos) {
-                        if (seguido.equals(mensagem.getLogin())) {
-                            System.out.println("Num: " + chave + " Login: " + seguido + " Msg: "
-                                    + mensagem.getRegistro());
+                for (String chave : mensagens.keySet()) {
+                    mensagem = mensagens.get(chave);
+                    if (usuario.getLogin().equals(mensagem.getLogin())) {
+                        System.out.println(
+                                "Num: " + chave + " Login: " + usuario.getLogin() + " Msg: " + mensagem.getRegistro());
+                        mensagensValidas.add(chave);
+                    } else {
+                        for (String seguido : seguidos) {
+                            if (seguido.equals(mensagem.getLogin())) {
+                                System.out.println("Num: " + chave + " Login: " + seguido + " Msg: "
+                                        + mensagem.getRegistro());
+                                mensagensValidas.add(chave);
+                            }
                         }
                     }
                 }
+
+                String visualizaComentarios;
+
+                System.out.print("Digite o número da mensagem que deseje ver os comentarios: ");
+                visualizaComentarios = scanner.nextLine();
+
+                if (mensagensValidas.contains(visualizaComentarios)) {
+                    mensagem = mensagens.get(visualizaComentarios);
+
+                    if (mensagem.numerosComentarios() > 0) {
+                        System.out.println("Comentarios da mensagem número: " + visualizaComentarios);
+
+                        mensagem.imprimeComentarios();
+                    }else{
+                        System.out.println("Nenhum comentario nessa mensagem.");
+                    }
+                } else {
+                    System.out.println(
+                            "Esse número não esta relacionado a nenhuma mensagem valida para visualizar os comentarios.");
+                }
+
+            } else {
+                System.out.println("Usuario não encontrado.");
             }
         } else {
-            System.out.println("Usuario não encontrado.");
+            System.out.println("Não existem usuarios no sistema.");
         }
     }
 

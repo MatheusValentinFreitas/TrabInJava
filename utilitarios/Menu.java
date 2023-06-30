@@ -187,7 +187,7 @@ public class Menu {
                 Controlador.continua();
                 break;
             case 2:
-
+                Controlador.comentarMensagem(Lista, Mensagens);
                 Controlador.continua();
                 break;
             case 3:

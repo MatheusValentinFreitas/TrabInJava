@@ -36,6 +36,10 @@ public class Mensagem{
         numComentarios++;
     }
 
+    public int numerosComentarios(){
+        return comentarios.size();
+    }
+
     public int getId() {
         return id;
     }
