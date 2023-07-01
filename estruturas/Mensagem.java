@@ -1,9 +1,8 @@
 package estruturas;
+
 import java.util.HashMap;
 
-import estruturas.Comentarios;
-
-public class Mensagem{
+public class Mensagem {
 
     private int id;
     private int numComentarios = 1;
@@ -18,15 +17,16 @@ public class Mensagem{
         this.registro = registro;
     }
 
-    public void imprimeComentarios(){
+    public void imprimeComentarios() {
         Comentarios comentario;
-        for(String chave : comentarios.keySet()){
+        for (String chave : comentarios.keySet()) {
             comentario = comentarios.get(chave);
-            System.out.println("Num: " + chave + " Login: " + comentario.getLogin() + " Msg: " + comentario.getRegistro());
+            System.out.println(
+                    "Num: " + chave + " Login: " + comentario.getLogin() + " Msg: " + comentario.getRegistro());
         }
     }
 
-    public void insereComentario(String login, String registro){
+    public void insereComentario(String login, String registro) {
         Comentarios novoComentario;
 
         novoComentario = new Comentarios(login, registro, numComentarios);
@@ -36,7 +36,37 @@ public class Mensagem{
         numComentarios++;
     }
 
-    public int numerosComentarios(){
+    public void removeComentarioUsuario(String login) {
+
+        Comentarios comentario;
+
+        for (String chave : comentarios.keySet()) {
+            comentario = comentarios.get(chave);
+
+            if (login.equals(comentario.getLogin())) {
+                comentarios.remove(chave);
+            }
+        }
+    }
+
+    public int coletaOcorrenciaAssunto(String assunto) {
+
+        Comentarios comentario;
+        int qtdOcorrencia = 0;
+
+        for (String chave : comentarios.keySet()) {
+            comentario = comentarios.get(chave);
+
+            if (comentario.getRegistro().contains(assunto)) {
+                qtdOcorrencia++;
+            }
+        }
+
+        return qtdOcorrencia;
+
+    }
+
+    public int numerosComentarios() {
         return comentarios.size();
     }
 

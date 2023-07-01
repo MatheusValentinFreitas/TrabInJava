@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.sound.midi.SysexMessage;
-
 import java.io.IOException;
 
 public class Controlador {
@@ -58,10 +56,12 @@ public class Controlador {
         }
     }
 
-    public static void excluirUsuario(ArrayList<Usuario> array) {
+    public static void excluirUsuario(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
         if (!vazioLista(array)) {
 
             Scanner scanner = new Scanner(System.in);
+
+            Mensagem mensagem;
             String loginBusca;
 
             System.out.println("Digite o login de usuario que deja remover: ");
@@ -71,6 +71,21 @@ public class Controlador {
 
             if (busca.existe) {
                 array.remove(busca.posicao);
+
+                for (Usuario usuario : array) {
+                    usuario.removeSeguidor(busca.login);
+                    usuario.removeSeguindo(busca.login);
+                }
+
+                for (String chave : mensagens.keySet()) {
+                    mensagem = mensagens.get(chave);
+                    if (busca.login.equals(mensagem.getLogin())) {
+                        mensagens.remove(chave);
+                    } else {
+                        mensagem.removeComentarioUsuario(busca.login);
+                    }
+                }
+
                 System.out.println("Usuario removido com sucesso.");
             } else {
                 System.out.println("Usuario não encontrado");
@@ -345,6 +360,36 @@ public class Controlador {
         }
     }
 
+    public static void ocorrenciaAssunto(HashMap<String, Mensagem> mensagens) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        Mensagem mensagem;
+        String assunto;
+        int qtdMensagens = 0, qtdComentarios = 0;
+
+        if (mensagens.size() > 0) {
+            System.out.print("Digite um assunto que deseje buscar no sistema: ");
+            assunto = scanner.nextLine();
+
+            for (String chave : mensagens.keySet()) {
+                mensagem = mensagens.get(chave);
+
+                if (mensagem.getRegistro().contains(assunto)) {
+                    qtdMensagens++;
+                }
+
+                qtdComentarios += mensagem.coletaOcorrenciaAssunto(assunto);
+            }
+
+            System.out.println(
+                    "Esse assunto esta em " + qtdMensagens + " mensagen(s) e em " + qtdComentarios + " comentario(s).");
+        } else {
+            System.out.println("Não existem mensagens no sistema.");
+        }
+
+    }
+
     public static void registrarMensagem(ArrayList<Usuario> array, HashMap<String, Mensagem> mensagens) {
 
         Scanner scanner = new Scanner(System.in);
@@ -514,7 +559,7 @@ public class Controlador {
                         System.out.println("Comentarios da mensagem número: " + visualizaComentarios);
 
                         mensagem.imprimeComentarios();
-                    }else{
+                    } else {
                         System.out.println("Nenhum comentario nessa mensagem.");
                     }
                 } else {

@@ -2,11 +2,9 @@ package utilitarios;
 
 import estruturas.*;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.ResourceBundle.Control;
 
 public class Menu {
 
@@ -100,7 +98,7 @@ public class Menu {
                 Controlador.continua();
                 break;
             case 2:
-                Controlador.excluirUsuario(Lista);
+                Controlador.excluirUsuario(Lista, Mensagens);
                 Controlador.continua();
                 break;
             case 3:
@@ -215,6 +213,7 @@ public class Menu {
         System.out.println("1 - Seguidores.");
         System.out.println("2 - Seguidos.");
         System.out.println("3 - Mais influente.");
+        System.out.println("4 - Ocorrência de assunto.");
 
         opcao = scanner.nextInt();
 
@@ -236,6 +235,10 @@ public class Menu {
                 Controlador.maisInfluente(Lista);
                 Controlador.continua();
                 break;
+            case 4:
+                Controlador.ocorrenciaAssunto(Mensagens);
+                Controlador.continua();
+            break;
             default:
                 System.out.println("Opção não valida.");
                 Controlador.continua();
